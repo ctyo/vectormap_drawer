@@ -42,6 +42,8 @@
 
 <script>
 import mapboxgl from "mapbox-gl";
+import polyline from "@mapbox/polyline";
+import Geohash from "latlon-geohash";
 
 export default {
   name: "Map",
@@ -64,12 +66,71 @@ export default {
           type: "FeatureCollection",
           features: []
         };
-        this.map.addSource("trace", { type: "geojson", data: geojson });
-        this.map.addLayer({
-          id: "trace",
-          type: "circle",
-          source: "trace"
-        });
+        this.map
+          .addSource("trace", { type: "geojson", data: geojson })
+          .addLayer({
+            id: "trace-point",
+            type: "symbol",
+            source: "trace",
+            layout: {
+              "icon-image": "rocket-15",
+              "icon-allow-overlap": true,
+              "icon-size": 2
+            },
+            filter: ["==", "$type", "Point"]
+          })
+          .addLayer({
+            id: "trace-line",
+            type: "line",
+            source: "trace",
+            layout: {
+              "line-join": "round",
+              "line-cap": "round"
+            },
+            paint: {
+              "line-color": "red",
+              "line-width": 5
+            },
+            filter: ["==", "$type", "LineString"]
+          })
+          .addLayer({
+            id: "trace-geohash",
+            type: "fill",
+            source: "trace",
+            paint: {
+              "fill-color": "lightgreen",
+              "fill-opacity": 0.5
+            },
+            filter: ["==", "$type", "Polygon"]
+          })
+          .addLayer({
+            id: "trace-label",
+            type: "symbol",
+            source: "trace",
+            layout: {
+              "text-field": "{name}\n",
+              "text-size": 12,
+              "symbol-placement": "point"
+            },
+            paint: {
+              "text-color": [
+                "case",
+                ["boolean", ["feature-state", "hover"], false],
+                "rgba(255,0,0,0.75)",
+                "rgba(255,0,0,0.75)"
+              ],
+              "text-halo-color": [
+                "case",
+                ["boolean", ["feature-state", "hover"], false],
+                "rgba(255,255,0,0.75)",
+                "rgba(255,255,255,0.75)"
+              ],
+              "text-halo-width": 2,
+              "text-halo-blur": 0
+            }
+          });
+
+        this.inputChange();
       });
     },
     inputChange() {
@@ -93,21 +154,51 @@ export default {
               coordinates: [line.split(",")[1] * 1, line.split(",")[0] * 1]
             },
             properties: {
-              title: line
+              name: line,
+              "marker-color": "#3bb2d0",
+              "marker-size": "large",
+              "marker-symbol": "rocket"
             }
           };
           geojson.features.push(point);
-        } else if (line.length >= 12) {
-          // geohash
-          console.log("geohash");
-          console.log(line);
+        } else if (line.length < 12) {
+          // ここはだいたい決め打ちにしてるので...
+          const nesw = Geohash.bounds(line);
+          const polygon = {
+            type: "Feature",
+            geometry: {
+              type: "Polygon",
+              coordinates: [
+                [
+                  [nesw.ne.lon, nesw.sw.lat],
+                  [nesw.ne.lon, nesw.ne.lat],
+                  [nesw.sw.lon, nesw.ne.lat],
+                  [nesw.sw.lon, nesw.sw.lat]
+                ]
+              ]
+            },
+            properties: {
+              name: line
+            }
+          };
+          geojson.features.push(polygon);
         } else {
-          console.log("polyline");
-          console.log(line);
+          const linestring = {
+            type: "Feature",
+            geometry: {
+              type: "LineString",
+              coordinates: polyline.decode(line).map(p => {
+                return [p[1], p[0]];
+              })
+            },
+            properties: {
+              name: line
+            }
+          };
+          geojson.features.push(linestring);
         }
       });
       this.geojson = JSON.stringify(geojson, null, 2);
-      console.dir(this.map.getSource("trace"));
       this.map.getSource("trace").setData(geojson);
     }
   },
@@ -126,7 +217,12 @@ export default {
       input:
         "35.7094313,139.7130015\n" +
         "35.6590845,139.6552845\n" +
-        "35.6563709,139.7610576",
+        "35.6563709,139.7610576\n" +
+        "eixxEqiftYaaD|jQhgHcyA??\n" +
+        "xn774\n" +
+        "xn7784\n" +
+        "xn777\n" +
+        "xn774fk",
       geojson: "{}"
     };
   }
