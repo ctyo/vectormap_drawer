@@ -48,6 +48,19 @@ import Geohash from "latlon-geohash";
 export default {
   name: "Map",
   mounted: function() {
+    // パラメーター処理
+    if (this.$route.query.token) {
+      this.token = this.$route.query.token;
+    }
+
+    if (this.$route.query.style) {
+      this.style = this.$route.query.style;
+    }
+
+    if (this.$route.query.input) {
+      this.input = this.$route.query.input;
+    }
+
     this.drawMap();
   },
   methods: {
@@ -208,11 +221,13 @@ export default {
       mapstyles: [
         {
           id: "mapbox",
-          token: "pk.eyJ1IjoiaGZ1IiwiYSI6ImlRSGJVUTAifQ.rTx380smyvPc1gUfZv1cmw",
+          token:
+            "pk.eyJ1IjoiY3R5byIsImEiOiJjanF2cTNjMm8weHVjNDJrOGV2anp3NDFwIn0.4pGtZ9Run1--9FR8NBkuqg",
           style: "mapbox://styles/mapbox/streets-v11"
         }
       ],
-      token: "pk.eyJ1IjoiaGZ1IiwiYSI6ImlRSGJVUTAifQ.rTx380smyvPc1gUfZv1cmw",
+      token:
+        "pk.eyJ1IjoiY3R5byIsImEiOiJjanF2cTNjMm8weHVjNDJrOGV2anp3NDFwIn0.4pGtZ9Run1--9FR8NBkuqg",
       style: "mapbox://styles/mapbox/streets-v11",
       input:
         "35.7094313,139.7130015\n" +
