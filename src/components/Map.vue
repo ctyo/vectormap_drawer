@@ -213,6 +213,17 @@ export default {
       });
       this.geojson = JSON.stringify(geojson, null, 2);
       this.map.getSource("trace").setData(geojson);
+      this.changeUrl();
+    },
+    changeUrl() {
+      this.$router.push({
+        path: "/",
+        query: {
+          token: this.token !== this.mapstyles[0].token ? this.token : "",
+          style: this.style !== this.mapstyles[0].style ? this.style : "",
+          input: this.input
+        }
+      });
     }
   },
   data() {
