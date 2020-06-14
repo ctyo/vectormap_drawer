@@ -44,6 +44,7 @@
 import mapboxgl from "mapbox-gl";
 import polyline from "@mapbox/polyline";
 import Geohash from "latlon-geohash";
+import { geohashToRGB } from "geohashtorgb";
 
 export default {
   name: "Map",
@@ -111,8 +112,7 @@ export default {
             type: "fill",
             source: "trace",
             paint: {
-              "fill-color": "lightgreen",
-              "fill-opacity": 0.5
+              "fill-color": { type: "identity", property: "color" }
             },
             filter: ["==", "$type", "Polygon"]
           })
@@ -191,7 +191,8 @@ export default {
               ]
             },
             properties: {
-              name: line
+              name: line,
+              color: geohashToRGB(line, 0.3)
             }
           };
           geojson.features.push(polygon);
