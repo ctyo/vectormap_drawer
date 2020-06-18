@@ -17,7 +17,7 @@
     "@mapbox/geojson-extent": "^0.3.2",
     "@mapbox/polyline": "^1.1.1",
     "@types/mapbox__polyline": "^1.0.0",
-    "geohashtorgb": "^1.0.1",
+    "geohashtorgb": "^1.0.3",
     "geojson-extent": "^0.3.2",
     "latlon-geohash": "^2.0.0",
     "mapbox-gl": "^1.11.0",
@@ -74,8 +74,8 @@
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.9.1",
+    "webpack-bundle-analyzer": ">=3.3.2",
+    "webpack-dev-server": ">=3.1.11",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
