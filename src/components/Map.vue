@@ -45,6 +45,7 @@ import mapboxgl from "mapbox-gl";
 import polyline from "@mapbox/polyline";
 import Geohash from "latlon-geohash";
 import { geohashToRGB } from "geohashtorgb";
+const geojsonExtent = require("geojson-extent");
 
 export default {
   name: "Map",
@@ -84,12 +85,18 @@ export default {
           .addSource("trace", { type: "geojson", data: geojson })
           .addLayer({
             id: "trace-point",
-            type: "symbol",
+            type: "circle",
             source: "trace",
-            layout: {
-              "icon-image": "rocket-15",
-              "icon-allow-overlap": true,
-              "icon-size": 2
+            paint: {
+              "circle-color": "red",
+              "circle-opacity": 0.6,
+              "circle-radius": {
+                base: 1.75,
+                stops: [
+                  [0, 4],
+                  [22, 180]
+                ]
+              }
             },
             filter: ["==", "$type", "Point"]
           })
@@ -174,6 +181,28 @@ export default {
             }
           };
           geojson.features.push(point);
+        } else if (line.split(",").length === line.split("|").length + 1) {
+          // 緯度経度点列
+          const points = line.split("|").map(l => {
+            return l.split(",");
+          });
+          console.dir(points);
+          for (let i = 0; i < points.length; i++) {
+            const point = {
+              type: "Feature",
+              geometry: {
+                type: "Point",
+                coordinates: [points[i][0] * 1, points[i][1] * 1]
+              },
+              properties: {
+                name: points[i][1],
+                "marker-color": "#3bb2d0",
+                "marker-size": "large",
+                "marker-symbol": "rocket"
+              }
+            };
+            geojson.features.push(point);
+          }
         } else if (line.length < 12) {
           // ここはだいたい決め打ちにしてるので...
           const nesw = Geohash.bounds(line);
@@ -202,7 +231,7 @@ export default {
             geometry: {
               type: "LineString",
               coordinates: polyline.decode(line).map(p => {
-                return [p[1], p[0]];
+                return [p[1] * 1, p[0] * 1];
               })
             },
             properties: {
@@ -214,6 +243,10 @@ export default {
       });
       this.geojson = JSON.stringify(geojson, null, 2);
       this.map.getSource("trace").setData(geojson);
+
+      this.map.fitBounds(geojsonExtent(geojson));
+      console.dir(geojsonExtent(geojson));
+
       this.changeUrl();
     },
     changeUrl() {

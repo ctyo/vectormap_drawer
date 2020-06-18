@@ -14,9 +14,11 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@mapbox/geojson-extent": "^0.3.2",
     "@mapbox/polyline": "^1.1.1",
     "@types/mapbox__polyline": "^1.0.0",
     "geohashtorgb": "^1.0.1",
+    "geojson-extent": "^0.3.2",
     "latlon-geohash": "^2.0.0",
     "mapbox-gl": "^1.11.0",
     "vue": "^2.5.2",
