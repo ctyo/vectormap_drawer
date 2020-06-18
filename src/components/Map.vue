@@ -197,7 +197,7 @@ export default {
                 coordinates: [points[i][0] * 1, points[i][1] * 1]
               },
               properties: {
-                name: points[i],
+                name: i + 1,
                 "marker-color": "#3bb2d0",
                 "marker-size": "large",
                 "marker-symbol": "rocket"
