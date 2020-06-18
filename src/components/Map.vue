@@ -189,7 +189,6 @@ export default {
           const points = line.split("|").map(l => {
             return l.split(",");
           });
-          console.dir(points);
           for (let i = 0; i < points.length; i++) {
             const point = {
               type: "Feature",
@@ -198,7 +197,7 @@ export default {
                 coordinates: [points[i][0] * 1, points[i][1] * 1]
               },
               properties: {
-                name: points[i][1],
+                name: points[i],
                 "marker-color": "#3bb2d0",
                 "marker-size": "large",
                 "marker-symbol": "rocket"
