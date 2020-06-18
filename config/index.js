@@ -50,7 +50,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/vectormap_drawer/dist/',
+    assetsPublicPath: '/vectormap_drawer/',
 
     /**
      * Source Maps
