@@ -130,7 +130,10 @@ export default {
             layout: {
               "text-field": "{name}\n",
               "text-size": 12,
-              "symbol-placement": "point"
+              "symbol-placement": "point",
+              "text-variable-anchor": ["top", "bottom", "left", "right"],
+              "text-radial-offset": 0.5,
+              "text-justify": "auto"
             },
             paint: {
               "text-color": [
