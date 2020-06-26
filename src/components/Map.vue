@@ -270,12 +270,12 @@ export default {
           id: "mapbox",
           token:
             "pk.eyJ1IjoiY3R5byIsImEiOiJjanF2cTNjMm8weHVjNDJrOGV2anp3NDFwIn0.4pGtZ9Run1--9FR8NBkuqg",
-          style: "mapbox://styles/mapbox/streets-v11"
+          style: "mapbox://styles/ctyo/ckbvv9hj50ite1ho6xrmqyqd8"
         }
       ],
       token:
         "pk.eyJ1IjoiY3R5byIsImEiOiJjanF2cTNjMm8weHVjNDJrOGV2anp3NDFwIn0.4pGtZ9Run1--9FR8NBkuqg",
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/ctyo/ckbvv9hj50ite1ho6xrmqyqd8",
       input:
         "35.7094313,139.7130015\n" +
         "35.6590845,139.6552845\n" +
