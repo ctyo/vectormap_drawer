@@ -184,7 +184,7 @@ export default {
             }
           };
           geojson.features.push(point);
-        } elseif (line.split(",").length === 2) {
+        } else if (line.split(",").length === 2) {
           // 緯度経度行
           const point = {
             type: "Feature",
