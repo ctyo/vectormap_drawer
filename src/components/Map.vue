@@ -177,7 +177,7 @@ export default {
               coordinates: [line.split(",")[1] * 1, line.split(",")[0] * 1]
             },
             properties: {
-              name: [2],
+              name: line.split(",")[2],
               "marker-color": "#3bb2d0",
               "marker-size": "large",
               "marker-symbol": "rocket"
