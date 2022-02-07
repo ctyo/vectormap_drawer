@@ -168,7 +168,23 @@ export default {
           return;
         }
 
-        if (line.split(",").length === 2) {
+        if (line.split(",").length === 3) {
+          // 緯度経度行
+          const point = {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: [line.split(",")[1] * 1, line.split(",")[0] * 1]
+            },
+            properties: {
+              name: [2],
+              "marker-color": "#3bb2d0",
+              "marker-size": "large",
+              "marker-symbol": "rocket"
+            }
+          };
+          geojson.features.push(point);
+        } elseif (line.split(",").length === 2) {
           // 緯度経度行
           const point = {
             type: "Feature",
